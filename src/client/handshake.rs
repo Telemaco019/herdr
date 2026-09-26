@@ -188,7 +188,7 @@ pub(super) fn do_handshake(
             cell_width_px,
             cell_height_px,
             surface_size,
-            pixel_mouse: exact_cell_size && cfg!(unix),
+            pixel_mouse: super::host_sgr_pixel_mouse_enabled(exact_cell_size),
             direct_graphics: direct_graphics_capability(
                 local_transport,
                 exact_cell_size,
@@ -218,7 +218,7 @@ pub(super) fn do_handshake(
             rows,
             cell_width_px,
             cell_height_px,
-            pixel_mouse: exact_cell_size && cfg!(unix),
+            pixel_mouse: super::host_sgr_pixel_mouse_enabled(exact_cell_size),
         }
     };
     protocol::write_message(stream, &hello)

@@ -127,6 +127,10 @@ pub(crate) fn should_query_host_terminal_palette() -> bool {
     false
 }
 
+pub(crate) fn host_sgr_pixel_mouse_supported() -> bool {
+    false
+}
+
 pub(crate) fn hostname() -> Option<String> {
     None
 }

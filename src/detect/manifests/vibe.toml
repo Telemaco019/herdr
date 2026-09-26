@@ -1,0 +1,73 @@
+id = "vibe"
+version = "2026.09.22.1"
+min_engine_version = 2
+updated_at = "2026-09-22T00:00:00Z"
+aliases = ["vibe cli"]
+
+# Evidence: live bottom-buffer and OSC-title captures from Mistral Vibe 2.25.5,
+# plus its Textual UI source. Vibe sets argv0 to "Vibe CLI" while its process
+# may run below a uv process-group leader.
+#
+# With tab status enabled, running titles start with ">> ". A focused blocker
+# starts with "? "; when unfocused, the title ends in " - Action Required".
+# The visible approval and question fallbacks require paired controls so that
+# ordinary transcript text does not look like a live blocker. Active turns and
+# local shell commands share the live "Esc/Ctrl+C to interrupt" footer.
+
+[[rules]]
+id = "osc_title_blocked"
+state = "blocked"
+priority = 1300
+region = "osc_title"
+visible_blocker = true
+any = [
+  { regex = ['^\? '] },
+  { regex = [' - Action Required$'] },
+]
+
+[[rules]]
+id = "osc_title_working"
+state = "working"
+priority = 1200
+region = "osc_title"
+visible_working = true
+regex = ['^>> ']
+
+[[rules]]
+id = "approval_blocked"
+state = "blocked"
+priority = 1100
+region = "bottom_non_empty_lines(20)"
+visible_blocker = true
+contains = ["Allow once", "Always allow", "Deny", "Esc reject"]
+
+[[rules]]
+id = "question_blocked"
+state = "blocked"
+priority = 1050
+region = "bottom_non_empty_lines(20)"
+visible_blocker = true
+contains = ["↑↓/jk navigate", "Esc cancel"]
+any = [
+  { contains = ["Enter select"] },
+  { contains = ["Enter toggle"] },
+]
+
+[[rules]]
+id = "interrupt_hint_working"
+state = "working"
+priority = 900
+region = "bottom_non_empty_lines(8)"
+visible_working = true
+contains = ["Esc/Ctrl+C to interrupt"]
+
+[[rules]]
+id = "live_prompt_idle"
+state = "idle"
+priority = 500
+region = "bottom_non_empty_lines(5)"
+visible_idle = true
+line_regex = [
+  '^\s*>\s*$',
+  '^\s*.+\[PID [0-9]+\](?:\s+.*)?$',
+]

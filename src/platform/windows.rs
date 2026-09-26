@@ -804,6 +804,10 @@ pub(crate) fn should_query_host_terminal_palette() -> bool {
     false
 }
 
+pub(crate) fn host_sgr_pixel_mouse_supported() -> bool {
+    false
+}
+
 /// The machine's node name, as shown by tmux's `#h`.
 pub(crate) fn hostname() -> Option<String> {
     std::env::var("COMPUTERNAME")

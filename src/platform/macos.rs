@@ -180,6 +180,19 @@ pub(crate) fn should_query_host_terminal_palette() -> bool {
     true
 }
 
+pub(crate) fn host_sgr_pixel_mouse_supported() -> bool {
+    host_sgr_pixel_mouse_supported_for_term_program(std::env::var("TERM_PROGRAM").ok().as_deref())
+}
+
+fn host_sgr_pixel_mouse_supported_for_term_program(term_program: Option<&str>) -> bool {
+    // Apple Terminal 470.2 and iTerm2 3.7.2 accept DECSET 1016 but report
+    // coordinates inconsistent with their pixel geometry. Advertising pixel
+    // mouse would therefore corrupt Herdr hit-testing before child routing.
+    !term_program.is_some_and(|program| {
+        program.eq_ignore_ascii_case("Apple_Terminal") || program.eq_ignore_ascii_case("iTerm.app")
+    })
+}
+
 fn raw_command_argv(command: &str, flag: &str) -> Vec<std::ffi::OsString> {
     vec!["/bin/sh".into(), flag.into(), command.into()]
 }
@@ -1264,6 +1277,20 @@ mod tests {
             terminal_bundle_identifier_from_env(None, None, false, false),
             None
         );
+    }
+
+    #[test]
+    fn incompatible_macos_terminals_do_not_advertise_sgr_pixel_mouse() {
+        assert!(!host_sgr_pixel_mouse_supported_for_term_program(Some(
+            "Apple_Terminal"
+        )));
+        assert!(!host_sgr_pixel_mouse_supported_for_term_program(Some(
+            "iTerm.app"
+        )));
+        assert!(host_sgr_pixel_mouse_supported_for_term_program(Some(
+            "WezTerm"
+        )));
+        assert!(host_sgr_pixel_mouse_supported_for_term_program(None));
     }
 
     #[test]

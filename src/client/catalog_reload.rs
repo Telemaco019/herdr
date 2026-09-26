@@ -84,7 +84,7 @@ pub(super) fn apply_profiles(
                 state.reported_size.1,
                 state.reported_cell_size.0,
                 state.reported_cell_size.1,
-                state.pixel_geometry_exact,
+                host_sgr_pixel_mouse_enabled(state.pixel_geometry_exact),
             ));
         }
     }

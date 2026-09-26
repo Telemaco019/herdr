@@ -251,6 +251,10 @@ pub(crate) fn should_query_host_terminal_palette() -> bool {
     !running_inside_wsl()
 }
 
+pub(crate) fn host_sgr_pixel_mouse_supported() -> bool {
+    true
+}
+
 fn running_inside_wsl() -> bool {
     static RUNNING_INSIDE_WSL: OnceLock<bool> = OnceLock::new();
     *RUNNING_INSIDE_WSL.get_or_init(detect_running_inside_wsl)

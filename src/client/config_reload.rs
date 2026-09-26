@@ -40,7 +40,7 @@ pub(super) fn apply_reload(
         let sgr_pixels = effective_sgr_pixel_mouse(
             enabled,
             state.endpoint_sgr_pixels_requested,
-            state.pixel_geometry_exact,
+            host_sgr_pixel_mouse_enabled(state.pixel_geometry_exact),
         );
         if enabled != state.mouse_capture_active
             || sgr_pixels != host_sgr_pixels_active.load(Ordering::Acquire)
@@ -63,7 +63,7 @@ pub(super) fn apply_reload(
                 state.reported_size.1,
                 state.reported_cell_size.0,
                 state.reported_cell_size.1,
-                state.pixel_geometry_exact,
+                host_sgr_pixel_mouse_enabled(state.pixel_geometry_exact),
             )
         });
         (
