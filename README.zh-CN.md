@@ -39,11 +39,15 @@ https://github.com/user-attachments/assets/043ec09f-4bdd-41d5-aee0-8fda6b83e267
 
 ## 安装
 
+克隆仓库并运行 `make install`：
+
 ```bash
-curl -fsSL https://herdr.dev/install.sh | sh
+git clone https://github.com/herdrdev/herdr
+cd herdr
+make install
 ```
 
-或者 `brew install herdr` · `mise use -g herdr` · Windows：`powershell -ExecutionPolicy Bypass -c "irm https://herdr.dev/install.ps1 | iex"` · [受端点保护的 Windows](https://herdr.dev/zh-cn/docs/windows-beta/) · [二进制文件](https://github.com/herdrdev/herdr/releases)
+它会构建 release 二进制文件并安装到 `~/.local/bin/herdr`，让当前检出的版本成为你 PATH 上的 `herdr`。可以用 `make install PREFIX=~/.herdr/bin` 覆盖安装位置（或设置 `DESTDIR`）。
 
 然后在工作所在的目录启动它：
 

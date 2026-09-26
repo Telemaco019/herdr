@@ -41,11 +41,15 @@ https://github.com/user-attachments/assets/043ec09f-4bdd-41d5-aee0-8fda6b83e267
 
 ## install
 
+clone the repository and run `make install`:
+
 ```bash
-curl -fsSL https://herdr.dev/install.sh | sh
+git clone https://github.com/herdrdev/herdr
+cd herdr
+make install
 ```
 
-or `brew install herdr` · `mise use -g herdr` · windows: `powershell -ExecutionPolicy Bypass -c "irm https://herdr.dev/install.ps1 | iex"` · [endpoint-protected Windows](https://herdr.dev/docs/windows-beta/) · [binaries](https://github.com/herdrdev/herdr/releases)
+this builds the release binary and installs it to `~/.local/bin/herdr` so this checkout becomes the `herdr` on your PATH. override the location with `make install PREFIX=~/.herdr/bin` (or set `DESTDIR`).
 
 then start it where the work lives:
 
